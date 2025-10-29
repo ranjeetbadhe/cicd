@@ -1,0 +1,36 @@
+FROM rockylinux:9
+
+LABEL maintainer="ranjeet.badhe@gmail.com" \
+      description="Rocky Linux container with full networking tools installed" \
+      version="2.1"
+
+# Keep base image as-is to avoid dnf conflicts; install only what we need.
+# --allowerasing resolves package conflicts cleanly
+# --setopt=install_weak_deps=False keeps image smaller, avoids unnecessary deps
+RUN dnf -y install \
+        --allowerasing \
+        --setopt=install_weak_deps=False \
+        iproute \
+        iputils \
+        net-tools \
+        bind-utils \
+        traceroute \
+        tcpdump \
+        nmap-ncat \
+        curl \
+        wget \
+        ethtool \
+        mtr \
+        nmap \
+        procps-ng \
+        vim-minimal \
+        less \
+        tar \
+        gzip \
+        which \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf
+
+WORKDIR /root
+CMD ["/bin/bash"]
+
